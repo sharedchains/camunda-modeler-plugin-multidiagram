@@ -1,9 +1,16 @@
-# Camunda Modeler multid-panel-ext Plug-in
+# Camunda Modeler multidiagram CallActivity extension plug-in
 
 [![Compatible with Camunda Modeler version 3.3](https://img.shields.io/badge/Camunda%20Modeler-3.3+-blue.svg)](https://github.com/camunda/camunda-modeler)
 
 A [Camunda Modeler](https://github.com/camunda/camunda-modeler) plug-in based on the [plug-in example](https://github.com/camunda/camunda-modeler-plugin-example).
 
+## About
+
+This plug-in adds the ability to Camunda modeler to set on a multi-diagram bpmn, as Caller element for a Call Activity task, one of the processes inside the bpmn file itself.
+
+![plug-in screencast](./docs/screencast.gif "plug-in in action")
+
+Multi-diagram features are new to bpmn-js and camunda modeler, and are available on our [GitHub page](https://github.com/sharedchains/)
 
 ## Development Setup
 
@@ -36,19 +43,12 @@ To prepare the plug-in for release, executing all necessary steps, run:
 npm run all
 ```
 
-
-## Before you Publish
-
-* [ ] Clearly state which Camunda Modeler version your plug-in is compatible with
-* [ ] Ensure you renamed the [bpmn-js extension](./client/bpmn-js-extension/index.js#L17) to something sensible
-
-
 ## Additional Resources
 
-* [Example plug-in](https://github.com/camunda/camunda-modeler-plugin-example)
-* [List of existing plug-ins](https://github.com/camunda/camunda-modeler-plugins)
-* [Plug-ins documentation](https://github.com/camunda/camunda-modeler/tree/master/docs/plugins)
+* [bpmn-js](https://github.com/sharedchains/bpmn-js/tree/feature/multipleDiagram)
+* [Camunda modeler](https://github.com/sharedchains/camunda-modeler/tree/feature/multiDiagrams)
 
+* [Plug-ins documentation](https://github.com/camunda/camunda-modeler/tree/master/docs/plugins)
 
 ## Licence
 
