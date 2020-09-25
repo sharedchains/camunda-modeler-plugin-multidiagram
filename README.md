@@ -1,4 +1,4 @@
-# Camunda Modeler multidiagram CallActivity extension plug-in
+# Camunda Modeler Multi-Diagram plug-in
 
 [![Compatible with Camunda Modeler version 3.3](https://img.shields.io/badge/Camunda%20Modeler-3.3+-blue.svg)](https://github.com/camunda/camunda-modeler)
 
@@ -6,11 +6,9 @@ A [Camunda Modeler](https://github.com/camunda/camunda-modeler) plug-in based on
 
 ## About
 
-This plug-in adds the ability to Camunda modeler to set on a multi-diagram bpmn, as Caller element for a Call Activity task, one of the processes inside the bpmn file itself.
+This plug-in adds the ability to Camunda modeler to manage multiple diagrams on a single bpmn file, as intended on BPMN specifications. Then it's possible to link, on a multi-diagram bpmn, as Caller element for a Call Activity task, one of the processes inside the bpmn file itself.
 
 ![plug-in screencast](./docs/screencast.gif "plug-in in action")
-
-Multi-diagram features are new to bpmn-js and camunda modeler, and are available on our [GitHub page](https://github.com/sharedchains/)
 
 ## Development Setup
 
