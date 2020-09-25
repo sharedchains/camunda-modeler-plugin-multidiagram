@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = {
-  name: 'multid-panel-ext Plug-in',
-  script: './dist/client.js'
+  name: 'Multi-diagram model Plug-in',
+  script: './dist/client.js',
+  style: './dist/style.css'
 };

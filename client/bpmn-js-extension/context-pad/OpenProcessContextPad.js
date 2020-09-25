@@ -1,7 +1,5 @@
-var find = require('lodash.find');
-var ModelUtil = require('bpmn-js/lib/util/ModelUtil'),
-  getBusinessObject = ModelUtil.getBusinessObject,
-  is = ModelUtil.is;
+import { is, getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+import { find } from 'lodash';
 
 
 export default class CustomContextPad {
@@ -41,20 +39,20 @@ export default class CustomContextPad {
         return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === rootElementId;
       });
       return diagram;
-    };
+    }
 
-    function openProcess(event, element) {
+    function openProcess(_event, element) {
       let bo = getBusinessObject(element);
       let calledElement = bo.get('calledElement');
       if (calledElement.startsWith('inner:')) {
         let diagram = getDiagram(calledElement.replace(/^(inner:)/, ""));
-        if (!!diagram) {
+        if (diagram) {
           commandStack.execute('diagram.switch', {
             id: diagram.id
           });
         }
       }
-    };
+    }
 
     function isInternalCallActivity(element) {
       let bo = getBusinessObject(element);

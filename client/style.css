@@ -1,0 +1,73 @@
+/* Button style */
+.toolbarBtn {
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 5px;
+    border: solid 1px transparent;
+    background: transparent;
+    vertical-align: middle;
+    font-size: 14px;
+    outline: none;
+    color: #444;
+    height: 29px;
+    width: 29px;
+}
+
+.toolbarBtn.disabled {
+    color: #999;
+    cursor: default;
+}
+
+.toolbarBtn:not(.disabled):hover,
+.toolbarBtn.active {
+    background-color: #676 !important;
+    border: solid 1px #ccc;
+}
+
+/* Dropdown style */
+.dropdownBtn {
+    white-space: nowrap;
+}
+
+.dropdownBtn .caret {
+    margin-left: 5px;
+    margin-top: -3px;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-top: 3px dashed;
+    border-top: 3px solid;
+    border-right: 3px solid transparent;
+    border-left: 3px solid transparent;
+}
+
+.dropdownBtn > .dropdown {
+    position: absolute;
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    line-height: 24px;
+    background: white;
+    border: solid 1px #CCC;
+    z-index: 1000;
+}
+
+.dropdownBtn > .dropdown > .item {
+    display: block;
+      width: 100%;
+      white-space: nowrap;
+      padding: 0 5px;
+      cursor: pointer;
+}
+
+.dropdownBtn > .dropdown > .item:hover {
+    background: #D6EBFF;
+}
+
+/* Icons */
+.app-icon-multidiagram-new:before { content: '\ff0b';}
+.app-icon-multidiagram-delete:before { content: '\ff0d';}
+.app-icon-multidiagram-rename:before { content: '\270E';}
