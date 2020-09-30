@@ -67,7 +67,7 @@ export default class DiagramButtons extends PureComponent {
     getDiagrams = () => {
         const modeler = this.getModeler();
         let definitions = modeler.getDefinitions();
-        const commandStack = modeler.get('commandStack');
+        const bpmnjs = modeler.get('bpmnjs');
         if (!!definitions) {
             return definitions.diagrams.map((diagram, index) => {
                 const { id } = diagram;
@@ -77,7 +77,7 @@ export default class DiagramButtons extends PureComponent {
                         id={id}
                         key={index}
                         onClick={() => {
-                            commandStack.execute('diagram.switch', { id: id });
+                            bpmnjs.open(id);
                             this.handleSwitch();
                         }}
                         className="item"
