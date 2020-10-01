@@ -10,8 +10,8 @@ export default class CustomContextPad {
     if (config.diagramUtil !== false) {
       this.diagramUtil = injector.get('diagramUtil', false);
     }
-    if (config.commandStack != false) {
-      this.commandStack = injector.get('commandStack', false);
+    if (config.bpmnjs != false) {
+      this.bpmnjs = injector.get('bpmnjs', false);
     }
 
     contextPad.registerProvider(this);
@@ -21,12 +21,12 @@ export default class CustomContextPad {
     const {
       translate,
       diagramUtil,
-      commandStack,
+      bpmnjs,
       eventBus
     } = this;
 
-    eventBus.on('element.dblclick', 1500, function(event) {
-      if (isInternalCallActivity(event.element)){
+    eventBus.on('element.dblclick', 1500, function (event) {
+      if (isInternalCallActivity(event.element)) {
         // do your stuff here
         openProcess(event, event.element);
         // stop propagating the event to prevent the default behavior
@@ -35,7 +35,7 @@ export default class CustomContextPad {
     });
 
     function getDiagram(rootElementId) {
-      var diagram = find(diagramUtil.diagrams(), function(diagram) {
+      var diagram = find(diagramUtil.diagrams(), function (diagram) {
         return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === rootElementId;
       });
       return diagram;
@@ -47,9 +47,8 @@ export default class CustomContextPad {
       if (calledElement.startsWith('inner:')) {
         let diagram = getDiagram(calledElement.replace(/^(inner:)/, ""));
         if (diagram) {
-          commandStack.execute('diagram.switch', {
-            id: diagram.id
-          });
+          bpmnjs.open(diagram.id);
+          eventBus.fire('diagram.switch', { diagram: diagram });
         }
       }
     }
@@ -58,9 +57,9 @@ export default class CustomContextPad {
       let bo = getBusinessObject(element);
 
       return is(element, 'bpmn:CallActivity')
-      && diagramUtil.diagrams().length > 1
-      && (typeof bo.get('calledElement') !== 'undefined')
-      && bo.get('calledElement').startsWith('inner:');
+        && diagramUtil.diagrams().length > 1
+        && (typeof bo.get('calledElement') !== 'undefined')
+        && bo.get('calledElement').startsWith('inner:');
     }
 
     let newContext = {};

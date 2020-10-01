@@ -59,8 +59,8 @@ export default function CallActivityExt(eventBus, translate, propertiesProvider,
       currentRootElement = context.context.newProcess.id;
     });
 
-    eventBus.on('commandStack.diagram.switch.executed', function (context) {
-      currentRootElement = getRootElement(context.context.id);
+    eventBus.on('diagram.switch', function (event) {
+      currentRootElement = getRootElement(event.diagram.id);
     });
 
     function getRootElement(diagramId) {
