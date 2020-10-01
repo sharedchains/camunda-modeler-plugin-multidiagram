@@ -1,7 +1,6 @@
 import CreateDiagramHandler from './cmd/CreateDiagramHandler';
 import DeleteDiagramHandler from './cmd/DeleteDiagramHandler';
 import RenameDiagramHandler from './cmd/RenameDiagramHandler';
-import SwitchDiagramHandler from './cmd/SwitchDiagramHandler';
 
 export default function DiagramSwitch(eventBus, commandStack, diagramUtil) {
   this._eventBus = eventBus;
@@ -20,7 +19,6 @@ function registerHandlers() {
   this._commandStack.registerHandler('diagram.create', CreateDiagramHandler);
   this._commandStack.registerHandler('diagram.delete', DeleteDiagramHandler);
   this._commandStack.registerHandler('diagram.rename', RenameDiagramHandler);
-  this._commandStack.registerHandler('diagram.switch', SwitchDiagramHandler);
 }
 
 DiagramSwitch.$inject = [
@@ -45,10 +43,4 @@ DiagramSwitch.prototype.renameDiagram = function(name) {
       newName: name
     });
   }
-};
-
-DiagramSwitch.prototype.switchDiagram = function(diagramId) {
-  this._commandStack.execute('diagram.switch', {
-    id: diagramId
-  });
 };
