@@ -45,7 +45,7 @@
     "bpmn-js-properties-panel": "^0.38.1",
     "classnames": "^2.2.6",
     "inherits": "^2.0.4",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "min-dom": "^3.1.3"
   }
 }
