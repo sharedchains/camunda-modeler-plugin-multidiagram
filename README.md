@@ -4,6 +4,10 @@
 
 A [Camunda Modeler](https://github.com/camunda/camunda-modeler) plug-in based on the [plug-in example](https://github.com/camunda/camunda-modeler-plugin-example).
 
+## How to install the plugin
+
+Download the latest [release zip](https://github.com/sharedchains/camunda-modeler-plugin-multidiagram/releases/) and extract it to your camunda-modeler/resources/plugins folder. That's all!
+
 ## About
 
 This plug-in adds the ability to Camunda modeler to manage multiple diagrams on a single bpmn file, as intended on BPMN specifications. Then it's possible to link, on a multi-diagram bpmn, as Caller element for a Call Activity task, one of the processes inside the bpmn file itself.
