@@ -17,14 +17,14 @@ CreateDiagramHandler.$inject = [
 ];
 
 CreateDiagramHandler.prototype.createProcess = function() {
-  var process = this._bpmnFactory.create('bpmn:Process', {});
+  const process = this._bpmnFactory.create('bpmn:Process', {});
   process.$parent = this._diagramUtil.definitions();
   return process;
 };
 
 CreateDiagramHandler.prototype.createDiagram = function(rootElement) {
-  var plane = this._bpmnFactory.createDiPlane(rootElement);
-  var diagram = this._bpmnFactory.create('bpmndi:BPMNDiagram', {
+  const plane = this._bpmnFactory.createDiPlane(rootElement);
+  const diagram = this._bpmnFactory.create('bpmndi:BPMNDiagram', {
     plane: plane
   });
   plane.$parent = diagram;
@@ -37,8 +37,8 @@ CreateDiagramHandler.prototype.preExecute = function(context) {
   context.oldDiagramId = this._diagramUtil.currentDiagram().id;
 
   // create new semantic objects
-  var newProcess = this.createProcess();
-  var newDiagram = this.createDiagram(newProcess);
+  const newProcess = this.createProcess();
+  const newDiagram = this.createDiagram(newProcess);
 
   // store them in the context
   context.newProcess = newProcess;

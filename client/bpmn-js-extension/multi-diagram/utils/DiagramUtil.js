@@ -1,7 +1,4 @@
-import {
-  findIndex,
-  find,
-} from 'min-dash';
+import { find, findIndex } from 'min-dash';
 
 export default function DiagramUtil(bpmnjs, canvas) {
 
@@ -19,11 +16,10 @@ DiagramUtil.prototype.currentRootElement = function() {
 };
 
 DiagramUtil.prototype.currentDiagram = function() {
-  var currentRootElement = this.currentRootElement();
-  var diagram = find(this.diagrams(), function(diagram) {
+  const currentRootElement = this.currentRootElement();
+  return find(this.diagrams(), function(diagram) {
     return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === currentRootElement.id;
   });
-  return diagram;
 };
 
 DiagramUtil.prototype.definitions = function() {
@@ -35,7 +31,7 @@ DiagramUtil.prototype.diagrams = function() {
 };
 
 DiagramUtil.prototype.removeDiagramById = function(rootElementId) {
-  var elementIndex = findIndex(this.definitions().rootElements, function(rootElement) {
+  const elementIndex = findIndex(this.definitions().rootElements, function(rootElement) {
     return rootElement.id === rootElementId;
   });
 
@@ -45,7 +41,7 @@ DiagramUtil.prototype.removeDiagramById = function(rootElementId) {
     throw new Error('could not find root element with ID ' + rootElementId);
   }
 
-  var diagramIndex = findIndex(this.diagrams(), function(diagram) {
+  const diagramIndex = findIndex(this.diagrams(), function(diagram) {
     return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === rootElementId;
   });
 

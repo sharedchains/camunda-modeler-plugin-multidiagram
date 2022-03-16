@@ -12,15 +12,21 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-react']
+            plugins: [
+              [ '@babel/plugin-transform-react-jsx', {
+                'importSource': '@bpmn-io/properties-panel/preact',
+                'runtime': 'automatic'
+              } ]
+            ]
           }
         }
       },
+
       // apply loaders, falling back to file-loader, if non matches
       {
         oneOf: [
@@ -50,10 +56,10 @@ module.exports = {
           {
 
             // exclude files served otherwise
-            exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
+            exclude: [ /\.(js|jsx|mjs)$/, /\.html$/, /\.json$/ ],
             loader: 'file-loader',
             options: {
-              name: 'static/media/[name].[hash:8].[ext]',
+              name: 'static/media/[name].[hash:8].[ext]'
             }
           }
         ]
@@ -62,7 +68,7 @@ module.exports = {
   },
   resolve: {
     alias: {
-      react: 'camunda-modeler-plugin-helpers/react'
+      'react': '@bpmn-io/properties-panel/preact/compat'
     }
   },
   devtool: 'cheap-module-source-map',

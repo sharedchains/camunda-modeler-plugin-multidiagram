@@ -6,6 +6,6 @@ import CallActivityExt from './CallActivityExt';
  *
  */
 export default {
-  __init__: ['CallableProcessProvider'],
-  CallableProcessProvider: ['type', CallActivityExt]
+  __init__: [ 'CallableProcessProvider' ],
+  CallableProcessProvider: [ 'type', CallActivityExt ]
 };

@@ -5,32 +5,31 @@ import {
 /**
  * Handler which deletes the currently displayed diagram.
  */
-export default function DeleteDiagramHandler(bpmnjs, commandStack, diagramUtil, modeling) {
+export default function DeleteDiagramHandler(bpmnjs, commandStack, diagramUtil) {
   this._bpmnjs = bpmnjs;
   this._commandStack = commandStack;
   this._diagramUtil = diagramUtil;
-  this._modeling = modeling;
 }
 
 DeleteDiagramHandler.$inject = [
   'bpmnjs',
   'commandStack',
-  'diagramUtil',
-  'modeling'
+  'diagramUtil'
 ];
 
-DeleteDiagramHandler.prototype.canExecute = function(context) {
+// eslint-disable-next-line no-unused-vars
+DeleteDiagramHandler.prototype.canExecute = function(_context) {
   return this._diagramUtil.diagrams().length > 1;
 };
 
 DeleteDiagramHandler.prototype.preExecute = function(context) {
   context.removedProcess = this._diagramUtil.currentRootElement();
   context.removedDiagram = this._diagramUtil.currentDiagram();
-  var diagrams = this._diagramUtil.diagrams();
+  const diagrams = this._diagramUtil.diagrams();
 
   // switch to the first diagram in the list that is not to be deleted
-  var otherDiagramId = find(diagrams, function(diagram) {
-    return (diagram != context.removedDiagram);
+  const otherDiagramId = find(diagrams, function(diagram) {
+    return (diagram !== context.removedDiagram);
   }).id;
   this._bpmnjs.open(otherDiagramId);
 };

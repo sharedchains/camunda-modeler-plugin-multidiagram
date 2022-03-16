@@ -1,6 +1,5 @@
-import { is, getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
+import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
 import { find } from 'lodash';
-
 
 export default class CustomContextPad {
   constructor(config, eventBus, contextPad, injector, translate) {
@@ -25,27 +24,28 @@ export default class CustomContextPad {
       eventBus
     } = this;
 
-    eventBus.on('element.dblclick', 1500, function (event) {
+    eventBus.on('element.dblclick', 1500, function(event) {
       if (isInternalCallActivity(event.element)) {
+
         // do your stuff here
         openProcess(event, event.element);
+
         // stop propagating the event to prevent the default behavior
         event.stopPropagation();
       }
     });
 
     function getDiagram(rootElementId) {
-      var diagram = find(diagramUtil.diagrams(), function (diagram) {
+      return find(diagramUtil.diagrams(), function(diagram) {
         return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === rootElementId;
       });
-      return diagram;
     }
 
     function openProcess(_event, element) {
       let bo = getBusinessObject(element);
       let calledElement = bo.get('calledElement');
       if (calledElement.startsWith('inner:')) {
-        let diagram = getDiagram(calledElement.replace(/^(inner:)/, ""));
+        let diagram = getDiagram(calledElement.replace(/^(inner:)/, ''));
         if (diagram) {
           bpmnjs.open(diagram.id);
           eventBus.fire('diagram.switch', { diagram: diagram });
