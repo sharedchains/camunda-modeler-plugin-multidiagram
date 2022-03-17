@@ -27,7 +27,8 @@ DiagramUtil.prototype.definitions = function() {
 };
 
 DiagramUtil.prototype.diagrams = function() {
-  return this.definitions().diagrams || [];
+  let rootElementProcessIds = this.definitions()?.rootElements?.filter(rootElement => rootElement.$type === 'bpmn:Process').map(rootElement => rootElement.id);
+  return this.definitions()?.diagrams?.filter(diagram => rootElementProcessIds.includes(diagram.plane.bpmnElement.id)) || [];
 };
 
 DiagramUtil.prototype.removeDiagramById = function(rootElementId) {
@@ -41,12 +42,12 @@ DiagramUtil.prototype.removeDiagramById = function(rootElementId) {
     throw new Error('could not find root element with ID ' + rootElementId);
   }
 
-  const diagramIndex = findIndex(this.diagrams(), function(diagram) {
+  const diagramIndex = findIndex(this.definitions().diagrams, function(diagram) {
     return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === rootElementId;
   });
 
   if (diagramIndex >= 0) {
-    this.diagrams().splice(diagramIndex, 1);
+    this.definitions().diagrams.splice(diagramIndex, 1);
   } else {
     throw new Error('could not find diagram for ID ' + rootElementId);
   }

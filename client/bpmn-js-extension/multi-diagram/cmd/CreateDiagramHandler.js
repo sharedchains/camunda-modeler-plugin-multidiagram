@@ -47,7 +47,7 @@ CreateDiagramHandler.prototype.preExecute = function(context) {
 
 CreateDiagramHandler.prototype.execute = function(context) {
   this._diagramUtil.definitions().rootElements.push(context.newProcess);
-  this._diagramUtil.diagrams().push(context.newDiagram);
+  this._bpmnjs._definitions.diagrams.push(context.newDiagram);
 
   this._bpmnjs.open(context.newDiagram.id);
 };

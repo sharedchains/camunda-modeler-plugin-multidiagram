@@ -47,7 +47,6 @@ export default class CustomContextPad {
       if (calledElement.startsWith('inner:')) {
         let diagram = getDiagram(calledElement.replace(/^(inner:)/, ''));
         if (diagram) {
-          bpmnjs.open(diagram.id);
           eventBus.fire('diagram.switch', { diagram: diagram });
         }
       }

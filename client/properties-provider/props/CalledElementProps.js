@@ -44,7 +44,7 @@ function CalledElementRef(props) {
     eventBus.on('commandStack.diagram.create.executed', function(context) {
       setCurrentRootElement(context.context.newProcess.id);
     });
-  }, [currentRootElement]);
+  }, [ currentRootElement ]);
 
   const getValue = () => {
     return element.businessObject.calledElement.replace(/^(inner:)/, '') || '';

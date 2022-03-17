@@ -17,58 +17,19 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            plugins: [
-              [ '@babel/plugin-transform-react-jsx', {
-                'importSource': '@bpmn-io/properties-panel/preact',
-                'runtime': 'automatic'
-              } ]
-            ]
+            presets: [ '@babel/preset-react' ]
           }
         }
       },
-
-      // apply loaders, falling back to file-loader, if non matches
       {
-        oneOf: [
-          {
-            test: /\/[A-Z][^/]+\.svg$/,
-            use: 'react-svg-loader'
-          },
-          {
-            test: /\.(bpmn|cmmn|dmn)$/,
-            use: 'raw-loader'
-          },
-          {
-            test: /\.css$/,
-            use: [
-              'style-loader',
-              'css-loader'
-            ]
-          },
-          {
-            test: /\.less$/,
-            use: [
-              'style-loader',
-              'css-loader',
-              'less-loader'
-            ]
-          },
-          {
-
-            // exclude files served otherwise
-            exclude: [ /\.(js|jsx|mjs)$/, /\.html$/, /\.json$/ ],
-            loader: 'file-loader',
-            options: {
-              name: 'static/media/[name].[hash:8].[ext]'
-            }
-          }
-        ]
+        test: /\.svg$/,
+        use: 'react-svg-loader'
       }
     ]
   },
   resolve: {
     alias: {
-      'react': '@bpmn-io/properties-panel/preact/compat'
+      'react': 'camunda-modeler-plugin-helpers/react'
     }
   },
   devtool: 'cheap-module-source-map',
