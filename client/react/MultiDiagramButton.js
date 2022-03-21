@@ -47,7 +47,7 @@ export default class MultiDiagramButton extends PureComponent {
       const { tabModeler } = this.state;
       this.setState({
         modeler: modeler,
-        tabModeler: [...tabModeler, { tabId: tab.id, modeler: modeler }]
+        tabModeler: [ ...tabModeler, { tabId: tab.id, modeler: modeler } ]
       });
 
       const eventBus = modeler.get('eventBus');
@@ -66,9 +66,7 @@ export default class MultiDiagramButton extends PureComponent {
         this.setState({ activeDiagram: diagramUtil.currentDiagram() })
       );
 
-      eventBus.on('diagram.switch', (event) => {
-        let bpmnjs = modeler.get('bpmnjs');
-        bpmnjs.open(event.diagram.id);
+      eventBus.on('diagram.switch', () => {
         this.setState({ activeDiagram: diagramUtil.currentDiagram() });
       });
 

@@ -35,9 +35,15 @@ function isInternal(element) {
  * @param translate
  * @param propertiesPanel
  * @param diagramUtil
+ * @param bpmnjs
  * @constructor
  */
-export default function CallActivityExt(eventBus, translate, propertiesPanel, diagramUtil) {
+export default function CallActivityExt(eventBus, translate, propertiesPanel, diagramUtil, bpmnjs) {
+
+  // Not sure it's the right place but whatever...
+  eventBus.on('diagram.switch', 10000, (event) => {
+    bpmnjs.open(event.diagram.id);
+  });
 
   /**
    * Return the groups provided for the given element.
@@ -76,11 +82,11 @@ export default function CallActivityExt(eventBus, translate, propertiesPanel, di
 
   };
 
-  propertiesPanel.registerProvider(500, this);
+  propertiesPanel.registerProvider(200, this);
 }
 
 CallActivityExt.prototype.getCallableType = function(element) {
   return getCallableType(element);
 };
 
-CallActivityExt.$inject = [ 'eventBus', 'translate', 'propertiesPanel', 'diagramUtil' ];
+CallActivityExt.$inject = [ 'eventBus', 'translate', 'propertiesPanel', 'diagramUtil', 'bpmnjs' ];

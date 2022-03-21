@@ -1,9 +1,6 @@
 import { SelectEntry, isSelectEntryEdited } from '@bpmn-io/properties-panel';
 import { useService } from 'bpmn-js-properties-panel';
 
-import { useEffect, useState } from '@bpmn-io/properties-panel/preact/hooks';
-import { find } from 'lodash';
-
 export default function(element) {
   return [
     {
@@ -21,30 +18,7 @@ function CalledElementRef(props) {
   const modeling = useService('modeling');
   const translate = useService('translate');
   const debounce = useService('debounceInput');
-  const eventBus = useService('eventBus');
   const diagramUtil = useService('diagramUtil');
-
-  const [ diagrams, setDiagrams ] = useState([]);
-  const [ rootElements, setRootElements ] = useState([]);
-  const [ currentRootElement, setCurrentRootElement ] = useState(null);
-
-  useEffect(() => {
-    eventBus.on('import.done', function() {
-      setDiagrams(diagramUtil.diagrams());
-      setRootElements(diagramUtil.definitions().rootElements);
-      setCurrentRootElement(diagramUtil.currentRootElement().id);
-    });
-  }, [ diagrams, rootElements, currentRootElement ]);
-
-  useEffect(() => {
-    eventBus.on('diagram.switch', function(event) {
-      const diagram = find(diagramUtil.diagrams(), { id: event.diagram.id });
-      setCurrentRootElement(diagram.plane.bpmnElement.id);
-    });
-    eventBus.on('commandStack.diagram.create.executed', function(context) {
-      setCurrentRootElement(context.context.newProcess.id);
-    });
-  }, [ currentRootElement ]);
 
   const getValue = () => {
     return element.businessObject.calledElement.replace(/^(inner:)/, '') || '';
@@ -58,8 +32,8 @@ function CalledElementRef(props) {
 
   const getOptions = () => {
     return [
-      ...rootElements
-        .filter((rootElement) => rootElement.id !== currentRootElement)
+      ...diagramUtil.definitions().rootElements
+        .filter((rootElement) => rootElement.$type === 'bpmn:Process' && rootElement.id !== diagramUtil.currentRootElement().id)
         .map((rootElement) => {
           return { label: rootElement.id, value: rootElement.id };
         })
