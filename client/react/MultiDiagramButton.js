@@ -4,7 +4,7 @@ import { Fill } from 'camunda-modeler-plugin-helpers/components';
 import SubProcessIcon from '../../resources/subprocess-collapsed.svg';
 
 import classNames from 'classnames';
-import { find } from 'lodash';
+import { find } from 'min-dash';
 import DiagramButtonsOverlay from './DiagramButtonsOverlay';
 
 const defaultState = {
@@ -77,7 +77,7 @@ export default class MultiDiagramButton extends PureComponent {
         tabModeler
       } = this.state;
       let activeTabId = tab.activeTab.id;
-      const activeModeler = find(tabModeler, { tabId: activeTabId });
+      const activeModeler = find(tabModeler, (tab) => tab.tabId === activeTabId);
       if (activeModeler) {
         let bpmnjs = activeModeler.modeler.get('bpmnjs');
         let diagramUtil = activeModeler.modeler.get('diagramUtil');

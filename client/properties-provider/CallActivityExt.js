@@ -1,7 +1,7 @@
 'use strict';
 
 import { is, getBusinessObject } from 'bpmn-js/lib/util/ModelUtil';
-import { find } from 'lodash';
+import { find } from 'min-dash';
 
 import calledTypeProps from './props/CalledTypeProps';
 import calledElementProps from './props/CalledElementProps';
@@ -66,7 +66,7 @@ export default function CallActivityExt(eventBus, translate, propertiesPanel, di
 
       if (is(element, 'bpmn:CallActivity') && diagramUtil.diagrams().length > 1 && getCallableType(element) === 'bpmn') {
 
-        let calledElement = find(groups, { id: 'CamundaPlatform__CallActivity' });
+        let calledElement = find(groups, (entry) => entry.id === 'CamundaPlatform__CallActivity');
 
         if (calledElement) {
           calledElement.entries.push(...calledTypeProps(element));

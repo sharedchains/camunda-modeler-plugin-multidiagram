@@ -1,5 +1,5 @@
 import { getBusinessObject, is } from 'bpmn-js/lib/util/ModelUtil';
-import { find } from 'lodash';
+import { find } from 'min-dash';
 
 export default class CustomContextPad {
   constructor(config, eventBus, contextPad, injector, translate) {
@@ -9,9 +9,6 @@ export default class CustomContextPad {
     if (config.diagramUtil !== false) {
       this.diagramUtil = injector.get('diagramUtil', false);
     }
-    if (config.bpmnjs != false) {
-      this.bpmnjs = injector.get('bpmnjs', false);
-    }
 
     contextPad.registerProvider(this);
   }
@@ -20,7 +17,6 @@ export default class CustomContextPad {
     const {
       translate,
       diagramUtil,
-      bpmnjs,
       eventBus
     } = this;
 

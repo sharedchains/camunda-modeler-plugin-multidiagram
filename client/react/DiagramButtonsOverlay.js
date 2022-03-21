@@ -23,7 +23,7 @@ export default function DiagramButtonsOverlay({ anchor, initValues, onClose, act
                 <PlusIcon/>
               </button>
             </Section.Actions>
-            {initValues.diagrams.map((diagram, index) => (
+            {initValues?.diagrams?.map((diagram, index) => (
               <div key={index} className={classNames('diagram-entry')}>
                 <div
                   onClick={() => actions.switchDiagram(diagram.id)}
