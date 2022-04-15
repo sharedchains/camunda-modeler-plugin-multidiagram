@@ -44,15 +44,24 @@ function CalledElementRef(props) {
   //   const businessObject = getBusinessObject(element);
   //   return
   // };
+  // return <SelectEntry
+  //   id={id}
+  //   element={element}
+  //   description={translate('Called inner element reference')}
+  //   label={translate('Called Element')}
+  //   getValue={getValue}
+  //   setValue={setValue}
+  //   getOptions={getOptions}
+  //   debounce={debounce}
+  // />;
 
-  return <SelectEntry
-    id={id}
-    element={element}
-    description={translate('Called inner element reference')}
-    label={translate('Called Element')}
-    getValue={getValue}
-    setValue={setValue}
-    getOptions={getOptions}
-    debounce={debounce}
-  />;
+  return SelectEntry({
+    element,
+    id,
+    label: translate('Called inner element reference'),
+    getValue,
+    setValue,
+    getOptions,
+    debounce
+  });
 }
