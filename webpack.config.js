@@ -17,7 +17,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [ '@babel/preset-react' ]
+            presets: ['@babel/preset-react']
           }
         }
       },
@@ -49,8 +49,8 @@ module.exports = {
       ]
     }),
     new ZipPlugin({
-      filename: 'camunda-modeler-plugin-multidiagram-' + process.env.npm_package_version + '.zip',
-      pathPrefix: 'camunda-modeler-plugin-multidiagram/',
+      filename: process.env.npm_package_name + '-' + process.env.npm_package_version + '.zip',
+      pathPrefix: process.env.npm_package_name + '/',
       pathMapper: function(assetPath) {
         if (assetPath.startsWith('client') || assetPath.startsWith('style')) {
           return path.join(path.dirname(assetPath), 'client', path.basename(assetPath));
