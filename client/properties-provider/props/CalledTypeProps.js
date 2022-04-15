@@ -56,14 +56,23 @@ function CalledElementType(props) {
     ];
   };
 
-  return <SelectEntry
-    id={id}
-    element={element}
-    description={translate('Called element is a global (internal) subprocess or an external BPMN')}
-    label={translate('Called Element Type')}
-    getValue={getValue}
-    setValue={setValue}
-    getOptions={getOptions}
-    debounce={debounce}
-  />;
+  // return <SelectEntry
+  //   id={id}
+  //   element={element}
+  //   description={translate('Called element is a global (internal) subprocess or an external BPMN')}
+  //   label={translate('Called Element Type')}
+  //   getValue={getValue}
+  //   setValue={setValue}
+  //   getOptions={getOptions}
+  //   debounce={debounce}
+  // />;
+  return SelectEntry({
+    element,
+    id,
+    label: translate('Called Element Type'),
+    getValue,
+    setValue,
+    getOptions,
+    debounce
+  });
 }

@@ -29,7 +29,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'react': 'camunda-modeler-plugin-helpers/react'
+      'react': 'camunda-modeler-plugin-helpers/react',
+      '@bpmn-io/properties-panel': 'camunda-modeler-plugin-helpers/vendor/@bpmn-io/properties-panel',
+      'bpmn-js-properties-panel': 'camunda-modeler-plugin-helpers/vendor/bpmn-js-properties-panel'
     }
   },
   devtool: 'cheap-module-source-map',
