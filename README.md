@@ -45,11 +45,19 @@ To prepare the plug-in for release, executing all necessary steps, run:
 npm run all
 ```
 
+## Compatibility Notice
+
+This plugin is currently compatible with the following Camunda Modeler versions.
+
+| Camunda Modeler | MultiDiagram Plugin |
+|-----------------|---------------------|
+| 3.4 - 4.12      | 1.0.1               |
+| 5.x             | 2.0 or newer        |
+
 ## Additional Resources
 
 * [bpmn-js](https://github.com/sharedchains/bpmn-js/tree/feature/multipleDiagram)
 * [Camunda modeler](https://github.com/sharedchains/camunda-modeler/tree/feature/multiDiagrams)
-
 * [Plug-ins documentation](https://github.com/camunda/camunda-modeler/tree/master/docs/plugins)
 
 ## Licence
