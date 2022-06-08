@@ -26,3 +26,9 @@ div.diagram-entry .diagram-name {
 div.diagram-entry .remove-diagram {
     width: 20%;
 }
+
+button.multi-diagram:disabled {
+    background-color: rgba(19, 1, 1, 0.3) !important;
+    color: rgba(255, 255, 255, 0.3) !important;
+    border-color: rgba(195, 195, 195, 0.3) !important;
+}

@@ -12,6 +12,7 @@ const defaultState = {
   tabModeler: [],
   activeDiagram: null,
   multi: false,
+  collaboration: false,
   configOpen: false
 };
 
@@ -55,7 +56,12 @@ export default class MultiDiagramButton extends PureComponent {
       eventBus.on('import.done', () => {
         let bpmnjs = modeler.get('bpmnjs');
         let isMultiDiagram = bpmnjs._definitions && diagramUtil.diagrams.length > 1;
-        this.setState({ activeDiagram: diagramUtil.currentDiagram(), multi: isMultiDiagram });
+        let isCollaboration = bpmnjs._definitions && diagramUtil.isCollaboration();
+        this.setState({
+          activeDiagram: diagramUtil.currentDiagram(),
+          multi: isMultiDiagram,
+          collaboration: isCollaboration
+        });
       });
 
       eventBus.on('commandStack.diagram.create.execute', (command) =>
@@ -82,9 +88,11 @@ export default class MultiDiagramButton extends PureComponent {
         let bpmnjs = activeModeler.modeler.get('bpmnjs');
         let diagramUtil = activeModeler.modeler.get('diagramUtil');
         let isMultiDiagram = bpmnjs._definitions && diagramUtil.diagrams.length > 1;
+        let isCollaboration = bpmnjs._definitions && diagramUtil.isCollaboration();
         this.setState({
           modeler: activeModeler.modeler,
           multi: isMultiDiagram,
+          collaboration: isCollaboration,
           activeDiagram: diagramUtil.currentDiagram()
         });
       } else {
@@ -128,7 +136,7 @@ export default class MultiDiagramButton extends PureComponent {
    * Camunda Modeler application UI
    */
   render() {
-    const { configOpen, activeDiagram, modeler } = this.state;
+    const { configOpen, activeDiagram, modeler, collaboration } = this.state;
     let initValues = {};
     if (modeler) {
 
@@ -142,13 +150,14 @@ export default class MultiDiagramButton extends PureComponent {
         <button
           ref={this._multiDiagramButtonRef}
           onClick={() => this.setState({ configOpen: true })}
-          className={classNames('btn', { 'btn--active': configOpen })}
+          className={classNames('btn','multi-diagram', { 'btn--active': configOpen })}
+          disabled={collaboration}
         >
           <SubProcessIcon/>
         </button>
       </Fill>
       {
-        this.state.configOpen && (
+        !collaboration && configOpen && (
           <DiagramButtonsOverlay
             anchor={this._multiDiagramButtonRef.current}
             onClose={this.handleConfigClosed}

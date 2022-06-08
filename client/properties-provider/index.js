@@ -1,4 +1,4 @@
-import CallActivityExt from './CallActivityExt';
+import CallActivityPropertiesProvider from './CallActivityPropertiesProvider';
 
 /**
  * A bpmn-js module, defining all extension services and their dependencies.
@@ -7,5 +7,5 @@ import CallActivityExt from './CallActivityExt';
  */
 export default {
   __init__: [ 'CallableProcessProvider' ],
-  CallableProcessProvider: [ 'type', CallActivityExt ]
+  CallableProcessProvider: [ 'type', CallActivityPropertiesProvider ]
 };

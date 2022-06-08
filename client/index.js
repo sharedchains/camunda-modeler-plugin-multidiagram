@@ -1,7 +1,6 @@
 import {
   registerBpmnJSPlugin,
-  registerClientExtension,
-  registerPlatformBpmnJSPlugin
+  registerClientExtension
 } from 'camunda-modeler-plugin-helpers';
 
 import MultiDiagramButton from './react/MultiDiagramButton';
@@ -12,6 +11,6 @@ import CallActivityExt from './properties-provider';
 
 registerBpmnJSPlugin(MultiDiagramFeatures);
 registerBpmnJSPlugin(ProcessContextPad);
-registerPlatformBpmnJSPlugin(CallActivityExt);
+registerBpmnJSPlugin(CallActivityExt);
 
 registerClientExtension(MultiDiagramButton);

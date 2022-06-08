@@ -26,6 +26,10 @@ DiagramUtil.prototype.definitions = function() {
   return this._bpmnjs._definitions || [];
 };
 
+DiagramUtil.prototype.isCollaboration = function() {
+  return this.definitions()?.rootElements?.filter(rootElement => rootElement.$type === 'bpmn:Collaboration').length > 0;
+};
+
 DiagramUtil.prototype.diagrams = function() {
   let rootElementProcessIds = this.definitions()?.rootElements?.filter(rootElement => rootElement.$type === 'bpmn:Process').map(rootElement => rootElement.id);
   return this.definitions()?.diagrams?.filter(diagram => rootElementProcessIds.includes(diagram.plane.bpmnElement.id)) || [];

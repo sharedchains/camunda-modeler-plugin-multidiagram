@@ -31,19 +31,24 @@ function isInternal(element) {
 
 /**
  * A provider for CallActivity elements, to open the global subprocess of the BPMN
- * @param eventBus
- * @param translate
- * @param propertiesPanel
- * @param diagramUtil
- * @param bpmnjs
  * @constructor
  */
-export default function CallActivityExt(eventBus, translate, propertiesPanel, diagramUtil, bpmnjs) {
+export default class CallActivityPropertiesProvider {
 
-  // Not sure it's the right place but whatever...
-  eventBus.on('diagram.switch', 10000, (event) => {
-    bpmnjs.open(event.diagram.id);
-  });
+  constructor(propertiesPanel, injector) {
+    const eventBus = injector.get('eventBus');
+    const bpmnjs = injector.get('bpmnjs');
+
+    this.diagramUtil = injector.get('diagramUtil');
+
+    // Not sure it's the right place but whatever...
+    eventBus.on('diagram.switch', 10000, (event) => {
+      bpmnjs.open(event.diagram.id);
+    });
+
+    propertiesPanel.registerProvider(200, this);
+  }
+
 
   /**
    * Return the groups provided for the given element.
@@ -52,7 +57,7 @@ export default function CallActivityExt(eventBus, translate, propertiesPanel, di
    *
    * @return {(Object[]) => (Object[])} groups middleware
    */
-  this.getGroups = function(element) {
+  getGroups(element) {
 
     /**
      * We return a middleware that modifies
@@ -62,9 +67,9 @@ export default function CallActivityExt(eventBus, translate, propertiesPanel, di
      *
      * @return {Object[]} modified groups
      */
-    return function(groups) {
+    return groups => {
 
-      if (is(element, 'bpmn:CallActivity') && diagramUtil.diagrams().length > 1 && getCallableType(element) === 'bpmn') {
+      if (is(element, 'bpmn:CallActivity') && this.diagramUtil.diagrams().length > 1 && getCallableType(element) === 'bpmn') {
 
         let calledElement = find(groups, (entry) => entry.id === 'CamundaPlatform__CallActivity');
 
@@ -82,11 +87,11 @@ export default function CallActivityExt(eventBus, translate, propertiesPanel, di
 
   };
 
-  propertiesPanel.registerProvider(200, this);
+
 }
 
-CallActivityExt.prototype.getCallableType = function(element) {
+CallActivityPropertiesProvider.prototype.getCallableType = function(element) {
   return getCallableType(element);
 };
 
-CallActivityExt.$inject = [ 'eventBus', 'translate', 'propertiesPanel', 'diagramUtil', 'bpmnjs' ];
+CallActivityPropertiesProvider.$inject = [ 'propertiesPanel', 'injector' ];
