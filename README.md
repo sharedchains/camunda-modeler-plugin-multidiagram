@@ -58,7 +58,7 @@ This plugin is currently compatible with the following Camunda Modeler versions.
 
 * [bpmn-js](https://github.com/sharedchains/bpmn-js/tree/feature/multipleDiagram)
 * [Camunda modeler](https://github.com/sharedchains/camunda-modeler/tree/feature/multiDiagrams)
-* [Plug-ins documentation](https://github.com/camunda/camunda-modeler/tree/master/docs/plugins)
+* [Plug-ins documentation](https://docs.camunda.io/docs/components/modeler/desktop-modeler/plugins/)
 
 ## Licence
 
