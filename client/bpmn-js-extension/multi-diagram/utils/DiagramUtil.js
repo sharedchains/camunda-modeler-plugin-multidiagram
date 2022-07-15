@@ -17,9 +17,11 @@ DiagramUtil.prototype.currentRootElement = function() {
 
 DiagramUtil.prototype.currentDiagram = function() {
   const currentRootElement = this.currentRootElement();
-  return find(this.diagrams(), function(diagram) {
-    return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === currentRootElement.id;
-  });
+  if (currentRootElement) {
+    return find(this.diagrams(), function(diagram) {
+      return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === currentRootElement.id;
+    });
+  }
 };
 
 DiagramUtil.prototype.definitions = function() {
