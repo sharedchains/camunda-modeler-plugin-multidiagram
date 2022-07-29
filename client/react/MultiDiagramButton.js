@@ -149,7 +149,7 @@ export default class MultiDiagramButton extends PureComponent {
       <Fill slot="status-bar__app" group="1_multidiagram">
         <button
           ref={this._multiDiagramButtonRef}
-          onClick={() => this.setState({ configOpen: true })}
+          onClick={() => this.setState({ configOpen: !configOpen })}
           className={classNames('btn','multi-diagram', { 'btn--active': configOpen })}
           disabled={collaboration}
         >
