@@ -1,4 +1,6 @@
 dist
+public
+tmp
 node_modules
 
 .idea

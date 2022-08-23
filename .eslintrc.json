@@ -5,22 +5,18 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
-    ],
-    "globals": {
-        "Atomics": "readonly",
-        "SharedArrayBuffer": "readonly"
-    },
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 2018,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react"
+        "plugin:react/recommended",
+        "plugin:bpmn-io/es6"
     ],
     "rules": {
+        "indent": [ 2, 2, {
+            "VariableDeclarator": { "var": 2, "let": 2, "const": 3 },
+            "FunctionDeclaration": { "body": 1, "parameters": 2 },
+            "FunctionExpression": { "body": 1, "parameters": 2 },
+            "ignoredNodes": [ "TemplateLiteral > *" ]
+        } ],
+        "no-bitwise": 0,
+        "react/prop-types": 0,
+        "react/react-in-jsx-scope": 0
     }
 }

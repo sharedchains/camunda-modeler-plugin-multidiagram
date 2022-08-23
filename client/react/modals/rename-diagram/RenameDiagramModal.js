@@ -26,7 +26,7 @@ export default function RenameDiagramModal({ initValues, onRename, onClose }) {
               name="activeDiagram"
               value={ activeDiagram }
               onChange={ event => setActiveDiagram(event.target.value) }
-              />
+            />
           </label>
         </p>
       </form>

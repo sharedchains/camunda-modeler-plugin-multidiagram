@@ -1,6 +1,7 @@
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const ZipPlugin = require('zip-webpack-plugin');
+const CamundaModelerWebpackPlugin = require('camunda-modeler-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -12,61 +13,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-react']
-          }
-        }
-      },
-      // apply loaders, falling back to file-loader, if non matches
-      {
-        oneOf: [
-          {
-            test: /\/[A-Z][^/]+\.svg$/,
-            use: 'react-svg-loader'
-          },
-          {
-            test: /\.(bpmn|cmmn|dmn)$/,
-            use: 'raw-loader'
-          },
-          {
-            test: /\.css$/,
-            use: [
-              'style-loader',
-              'css-loader'
-            ]
-          },
-          {
-            test: /\.less$/,
-            use: [
-              'style-loader',
-              'css-loader',
-              'less-loader'
-            ]
-          },
-          {
-
-            // exclude files served otherwise
-            exclude: [/\.(js|jsx|mjs)$/, /\.html$/, /\.json$/],
-            loader: 'file-loader',
-            options: {
-              name: 'static/media/[name].[hash:8].[ext]',
-            }
-          }
-        ]
+        test: /\.svg$/,
+        use: 'react-svg-loader'
       }
     ]
   },
-  resolve: {
-    alias: {
-      react: 'camunda-modeler-plugin-helpers/react'
-    }
-  },
   devtool: 'cheap-module-source-map',
   plugins: [
+    new CamundaModelerWebpackPlugin(),
     new CopyPlugin({
       patterns: [
         {
@@ -80,8 +34,8 @@ module.exports = {
       ]
     }),
     new ZipPlugin({
-      filename: 'camunda-modeler-plugin-multidiagram-' + process.env.npm_package_version + '.zip',
-      pathPrefix: 'camunda-modeler-plugin-multidiagram/',
+      filename: process.env.npm_package_name + '-' + process.env.npm_package_version + '.zip',
+      pathPrefix: process.env.npm_package_name + '/',
       pathMapper: function(assetPath) {
         if (assetPath.startsWith('client') || assetPath.startsWith('style')) {
           return path.join(path.dirname(assetPath), 'client', path.basename(assetPath));
