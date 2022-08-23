@@ -1,7 +1,4 @@
-import {
-  findIndex,
-  find,
-} from 'min-dash';
+import { find, findIndex } from 'min-dash';
 
 export default function DiagramUtil(bpmnjs, canvas) {
 
@@ -19,23 +16,29 @@ DiagramUtil.prototype.currentRootElement = function() {
 };
 
 DiagramUtil.prototype.currentDiagram = function() {
-  var currentRootElement = this.currentRootElement();
-  var diagram = find(this.diagrams(), function(diagram) {
-    return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === currentRootElement.id;
-  });
-  return diagram;
+  const currentRootElement = this.currentRootElement();
+  if (currentRootElement) {
+    return find(this.diagrams(), function(diagram) {
+      return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === currentRootElement.id;
+    });
+  }
 };
 
 DiagramUtil.prototype.definitions = function() {
   return this._bpmnjs._definitions || [];
 };
 
+DiagramUtil.prototype.isCollaboration = function() {
+  return this.definitions()?.rootElements?.filter(rootElement => rootElement.$type === 'bpmn:Collaboration').length > 0;
+};
+
 DiagramUtil.prototype.diagrams = function() {
-  return this.definitions().diagrams || [];
+  let rootElementProcessIds = this.definitions()?.rootElements?.filter(rootElement => rootElement.$type === 'bpmn:Process').map(rootElement => rootElement.id);
+  return this.definitions()?.diagrams?.filter(diagram => rootElementProcessIds.includes(diagram.plane.bpmnElement.id)) || [];
 };
 
 DiagramUtil.prototype.removeDiagramById = function(rootElementId) {
-  var elementIndex = findIndex(this.definitions().rootElements, function(rootElement) {
+  const elementIndex = findIndex(this.definitions().rootElements, function(rootElement) {
     return rootElement.id === rootElementId;
   });
 
@@ -45,12 +48,12 @@ DiagramUtil.prototype.removeDiagramById = function(rootElementId) {
     throw new Error('could not find root element with ID ' + rootElementId);
   }
 
-  var diagramIndex = findIndex(this.diagrams(), function(diagram) {
+  const diagramIndex = findIndex(this.definitions().diagrams, function(diagram) {
     return diagram.plane.bpmnElement && diagram.plane.bpmnElement.id === rootElementId;
   });
 
   if (diagramIndex >= 0) {
-    this.diagrams().splice(diagramIndex, 1);
+    this.definitions().diagrams.splice(diagramIndex, 1);
   } else {
     throw new Error('could not find diagram for ID ' + rootElementId);
   }
