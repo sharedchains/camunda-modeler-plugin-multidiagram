@@ -26,12 +26,12 @@ export default function DiagramButtonsOverlay({ anchor, initValues, onClose, act
             {initValues?.diagrams?.map((diagram, index) => (
               <div key={index} className={classNames('diagram-entry')}>
                 <div
-                  onClick={() => actions.switchDiagram(diagram.id)}
-                  className={classNames('btn', initValues.activeDiagram === diagram.id ? 'btn-primary' : 'btn-secondary', 'diagram-name')}>
-                  <span>{diagram.id}</span>
+                  onClick={() => actions.switchDiagram(diagram)}
+                  className={classNames('btn', initValues.activeDiagram === diagram ? 'btn-primary' : 'btn-secondary', 'diagram-name')}>
+                  <span>{diagram}</span>
                 </div>
                 <button
-                  onClick={actions.deleteDiagram}
+                  onClick={() => actions.deleteDiagram(diagram)}
                   disabled={initValues.diagrams.length === 1}
                   className={classNames('btn', 'btn-secondary', 'diagram-button', 'remove-diagram')}>
                   <MinusIcon/>
