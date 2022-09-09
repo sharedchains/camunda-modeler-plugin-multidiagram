@@ -1,6 +1,4 @@
-import {
-  find
-} from 'min-dash';
+import { find } from 'min-dash';
 
 /**
  * Handler which deletes the currently displayed diagram.
@@ -23,13 +21,19 @@ DeleteDiagramHandler.prototype.canExecute = function(_context) {
 };
 
 DeleteDiagramHandler.prototype.preExecute = function(context) {
-  context.removedProcess = this._diagramUtil.currentRootElement();
-  context.removedDiagram = this._diagramUtil.currentDiagram();
   const diagrams = this._diagramUtil.diagrams();
+  if (context.diagram) {
+    const diagramToRemove = find(diagrams, diagram => diagram.id === context.diagram);
+    context.removedProcess = { ...diagramToRemove.plane.bpmnElement };
+    context.removedDiagram = diagramToRemove;
+  } else {
+    context.removedProcess = this._diagramUtil.currentRootElement();
+    context.removedDiagram = this._diagramUtil.currentDiagram();
+  }
 
   // switch to the first diagram in the list that is not to be deleted
   const otherDiagramId = find(diagrams, function(diagram) {
-    return (diagram !== context.removedDiagram);
+    return (diagram.id !== context.diagram);
   }).id;
   this._bpmnjs.open(otherDiagramId);
 };
@@ -40,15 +44,7 @@ DeleteDiagramHandler.prototype.execute = function(context) {
 
 DeleteDiagramHandler.prototype.revert = function(context) {
 
-  // reinsert the rootElement and diagram at the right position
-  this._diagramUtil.definitions().rootElements.splice(
-    context.indices.elementIndex,
-    0,
-    context.removedProcess
-  );
-  this._diagramUtil.diagrams().splice(
-    context.diagramIndex,
-    0,
-    context.removedDiagram
-  );
+  // reinsert the rootElement and diagram
+  this._bpmnjs._definitions.diagrams.push(context.removedDiagram);
+  this._bpmnjs._definitions.rootElements.push(context.removedProcess);
 };

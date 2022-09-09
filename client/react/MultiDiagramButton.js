@@ -10,6 +10,7 @@ import DiagramButtonsOverlay from './DiagramButtonsOverlay';
 const defaultState = {
   modeler: null,
   tabModeler: [],
+  diagrams: [],
   activeDiagram: null,
   multi: false,
   collaboration: false,
@@ -59,17 +60,33 @@ export default class MultiDiagramButton extends PureComponent {
         let isCollaboration = bpmnjs._definitions && diagramUtil.isCollaboration();
         this.setState({
           activeDiagram: diagramUtil.currentDiagram(),
+          diagrams: diagramUtil.diagrams().map(d => d.id),
           multi: isMultiDiagram,
           collaboration: isCollaboration
         });
       });
 
-      eventBus.on('commandStack.diagram.create.execute', (command) =>
-        this.setState({ activeDiagram: command.context.newDiagram })
+      eventBus.on('commandStack.diagram.create.executed', (command) =>
+        this.setState({
+          activeDiagram: command.context.newDiagram,
+          diagrams: diagramUtil.diagrams().map(d => d.id)
+        })
       );
 
-      eventBus.on('commandStack.diagram.delete.execute', () =>
-        this.setState({ activeDiagram: diagramUtil.currentDiagram() })
+      eventBus.on('commandStack.diagram.delete.executed', () =>
+        this.setState({
+          activeDiagram: diagramUtil.currentDiagram(),
+          diagrams: diagramUtil.diagrams().map(d => d.id)
+        })
+      );
+
+      eventBus.on([ 'commandStack.diagram.create.reverted', 'commandStack.diagram.delete.reverted' ], () =>
+        this.setState({
+          activeDiagram: diagramUtil.currentDiagram(),
+          diagrams: diagramUtil.diagrams().map(d => d.id),
+          multi: diagramUtil.diagrams.length > 1,
+          collaboration: diagramUtil.isCollaboration()
+        })
       );
 
       eventBus.on('diagram.switch', () => {
@@ -83,17 +100,19 @@ export default class MultiDiagramButton extends PureComponent {
         tabModeler
       } = this.state;
       let activeTabId = tab.activeTab.id;
-      const activeModeler = find(tabModeler, (tab) => tab.tabId === activeTabId);
+      const activeModeler = find(tabModeler, t => t.tabId === activeTabId);
       if (activeModeler) {
         let bpmnjs = activeModeler.modeler.get('bpmnjs');
         let diagramUtil = activeModeler.modeler.get('diagramUtil');
-        let isMultiDiagram = bpmnjs._definitions && diagramUtil.diagrams.length > 1;
+        let isMultiDiagram = bpmnjs._definitions && diagramUtil.diagrams().length > 1;
         let isCollaboration = bpmnjs._definitions && diagramUtil.isCollaboration();
+        let diagramNames = bpmnjs._definitions && diagramUtil.diagrams().map(d => d.id) || [];
         this.setState({
           modeler: activeModeler.modeler,
           multi: isMultiDiagram,
           collaboration: isCollaboration,
-          activeDiagram: diagramUtil.currentDiagram()
+          activeDiagram: diagramUtil.currentDiagram(),
+          diagrams: diagramNames
         });
       } else {
         this.setState(defaultState);
@@ -109,14 +128,16 @@ export default class MultiDiagramButton extends PureComponent {
     this.setState({ multi: true });
   };
 
-  deleteDiagram = () => {
+  deleteDiagram = (diagramId) => {
     const { modeler } = this.state;
     const diagramUtil = modeler.get('diagramUtil');
 
     if (diagramUtil.diagrams().length > 1) {
-      this.setState({ multi: (diagramUtil.diagrams().length - 1) > 1 });
+      let stillMulti = (diagramUtil.diagrams().length - 1) > 1;
       const commandStack = modeler.get('commandStack');
-      commandStack.execute('diagram.delete', {});
+      commandStack.execute('diagram.delete', { diagram: diagramId });
+
+      this.setState({ multi: stillMulti });
     }
   };
 
@@ -136,13 +157,8 @@ export default class MultiDiagramButton extends PureComponent {
    * Camunda Modeler application UI
    */
   render() {
-    const { configOpen, activeDiagram, modeler, collaboration } = this.state;
-    let initValues = {};
-    if (modeler) {
-
-      const diagramUtil = modeler.get('diagramUtil');
-      initValues = { activeDiagram: (activeDiagram ? activeDiagram.id : undefined), diagrams: diagramUtil.diagrams() };
-    }
+    const { configOpen, activeDiagram, diagrams, collaboration } = this.state;
+    let initValues = { activeDiagram: (activeDiagram ? activeDiagram.id : undefined), diagrams };
 
     // we can use fills to hook React components into certain places of the UI
     return <Fragment>
@@ -150,7 +166,7 @@ export default class MultiDiagramButton extends PureComponent {
         <button
           ref={this._multiDiagramButtonRef}
           onClick={() => this.setState({ configOpen: !configOpen })}
-          className={classNames('btn','multi-diagram', { 'btn--active': configOpen })}
+          className={classNames('btn', 'multi-diagram', { 'btn--active': configOpen })}
           disabled={collaboration}
         >
           <SubProcessIcon/>
