@@ -157,7 +157,7 @@ export default class MultiDiagramButton extends PureComponent {
    * Camunda Modeler application UI
    */
   render() {
-    const { configOpen, activeDiagram, diagrams, collaboration } = this.state;
+    const { configOpen, activeDiagram, diagrams } = this.state;
     let initValues = { activeDiagram: (activeDiagram ? activeDiagram.id : undefined), diagrams };
 
     // we can use fills to hook React components into certain places of the UI
@@ -167,13 +167,12 @@ export default class MultiDiagramButton extends PureComponent {
           ref={this._multiDiagramButtonRef}
           onClick={() => this.setState({ configOpen: !configOpen })}
           className={classNames('btn', 'multi-diagram', { 'btn--active': configOpen })}
-          disabled={collaboration}
         >
           <SubProcessIcon/>
         </button>
       </Fill>
       {
-        !collaboration && configOpen && (
+        configOpen && (
           <DiagramButtonsOverlay
             anchor={this._multiDiagramButtonRef.current}
             onClose={this.handleConfigClosed}

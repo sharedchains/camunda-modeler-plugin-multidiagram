@@ -6,6 +6,14 @@ All notable changes to the [camunda-modeler-plugin-multidiagram](https://github.
 
 ___Note:__ Yet to be released changes appear here._
 
+## 2.0.2
+
+* `FEAT`: Supported Collaboration multi-diagram again
+
+## 2.0.1
+
+* `FIX`: Fixed diagram delete behaviour and revert commands
+
 ## 2.0.0
 
 * `CHORE`: support Camunda Modeler 5.x.x+
